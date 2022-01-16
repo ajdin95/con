@@ -1,0 +1,589 @@
+﻿<meta name="viewport" content="width=device-width, initial-scale=1">
+@page "/counter"
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+<header id="header">
+						<div style="display:flex;align-items: center;justify-content: center;" class="logo">
+							<img style="width:60px;height:60px" src="/drvce.png">
+						</div>
+						<div class="content">
+							<div class="inner">
+								<h1>CONNING</h1>
+								<p>Dobrodošli na web stranicu kompanije Conning d.o.o. Pronađite više informacija na linkovima ispod<br />
+								Ukoliko želite sastaviti vlastita vrata, možete to učiniti klikom na link Cijena </p>
+							</div>
+						</div>
+						<nav>
+							<ul>
+								<li><a href="#intro" class="linkhoverklasa">O nama</a></li>
+								<li><a href="#work" class="linkhoverklasa">Radovi</a></li>
+								<li><a href="#about" class="linkhoverklasa">Katalog</a></li>
+								<li><a @onclick="otvorinovimodal" class="linkhoverklasa">Kontakt</a></li>
+								<li><a @onclick="prikaziizborfunkcija" class="linkhoverklasa">Cijena</a></li>
+
+								<!--<li><a href="#elements">Elements</a></li>-->
+							</ul>
+						</nav>
+					</header>
+
+
+<!--//novi modal>-->
+<div class="novimodal" hidden=@novimodalstate>
+    <div class="novimodalcontent">
+        <div style="display:flex; align-items:center; justify-content:space-between">
+             <h1 style="color:white; text-align:left; display:inline; float:left; margin-left:5%; margin-top:2%">Kontaktiraj nas</h1>
+             <i class="fas fa-plus-circle" @onclick="zatvorinovimodal" style="margin-right: 3%; float:right;"></i>
+        </div>
+       
+    </div>  
+</div>   
+
+
+<!--//stari modal, odabir liste>-->
+<div class="modal fade @klasamodala" id="myModal" style="background-color: rgba(10,10,10,.8);z-index:10000"
+     aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Odaberite dio</h4>
+                <button type="button" class="close" @onclick="zatvorimodalsteka" >&times;</button>
+            </div>
+            <div class="modal-body">
+
+               
+
+             <div class="row stekered">   
+
+@if(brojModala==0){
+ @if(listaBaglama!=null){
+@foreach (var item in listaBaglama)
+{
+   <div class="col @item.klasa" style="margin-bottom: 4%; padding-top:3%" @onclick="() => kliknutaBaglama(item.id)">
+     <p style="font-weight: 700; display:inline; margin-left:5%">@item.naziv</p>
+      <p style="display: inline; margin-left:4%">@item.tip</p>
+      <p style="display: inline; margin-left:4%">@item.materijal</p>
+     <img src="@item.slika" width="200px;height:200px" class="slika">
+        
+   </div>
+}
+}
+}
+
+@if(brojModala==1){
+      @if(listaSteka!=null){
+            @foreach (var item in listaSteka)
+    {
+    <div class="col @item.klasa" style="margin-bottom: 4%; padding-top:3%" @onclick="() => kliknutaSteka(item.id)">
+     <p style="font-weight: 700; display:inline; margin-left:5%">@item.naziv</p>
+      <p style="display: inline; margin-left:4%">@item.tip</p>
+      <p style="display: inline; margin-left:4%">@item.materijal</p>
+     <img src="@item.slikaurl" width="200px;height:200px" class="slika">
+        
+   </div>
+    }
+}
+}
+
+@if(brojModala==2){
+      @if(listaBrava!=null){
+            @foreach (var item in listaBrava)
+    {
+    <div class="col @item.klasa" style="margin-bottom: 4%; padding-top:3%" @onclick="() => kliknutaBrava(item.id)">
+     <p style="font-weight: 700; display:inline; margin-left:5%">@item.naziv</p>
+      <p style="display: inline; margin-left:4%">@item.tip</p>
+      <p style="display: inline; margin-left:4%">@item.materijal</p>
+     <img src="@item.slikaurl" width="200px;height:200px" class="slika">
+        
+   </div>
+    }
+}
+}
+
+@if(brojModala==3){
+      @if(listaStokova!=null){
+            @foreach (var item in listaStokova)
+    {
+    <div class="col @item.klasa" style="margin-bottom: 4%; padding-top:3%" @onclick="() => kliknutStok(item.id)">
+     <p style="font-weight: 700; display:inline; margin-left:5%">@item.naziv</p>
+      <p style="display: inline; margin-left:4%">@item.tip</p>
+      <p style="display: inline; margin-left:4%">@item.visina x @item.sirina</p>
+     <img src="@item.slikaurl" width="200px;height:200px" class="slika">
+        
+   </div>
+    }
+}
+}
+
+@if(brojModala==4){
+      @if(listaKrila!=null){
+            @foreach (var item in listaKrila)
+    {
+    <div class="col @item.klasa" style="margin-bottom: 4%; padding-top:3%" @onclick="() => kliknutaKrila(item.id)">
+     <p style="font-weight: 700; display:inline; margin-left:5%">@item.naziv</p>
+      <p style="display: inline; margin-left:4%">@item.tip</p>
+      <p style="display: inline; margin-left:4%">@item.visina x @item.sirina</p>
+     <img src="@item.slikaurl" width="200px;height:200px" class="slika">
+        
+   </div>
+    }
+}
+}
+   
+</div>
+                <div class="modal-footer">
+                <button class="btn btn-primary" @onclick="zatvorimodalsteka">Idi dalje</button>
+                </div>
+
+            </div> 
+
+           
+        </div>
+    </div>
+</div>
+<div>
+
+
+</div>
+<div id="cijenaid" hidden=@prikaziizbor>
+<div class="container" style="margin-top: 5%;">
+  <div class="row" style="display:flex">
+
+    <div class="col">
+     @if(baglamaodabrana==404){
+<button @onclick="() => otvorimodalsteka(0)" class="prazanodabir">Baglame <i class="fas fa-plus-circle" style="margin-left: 3%;"></i></button>
+}
+@if(baglamaodabrana!=404){
+    
+  <div class="odabranabaglama" @onclick="() => otvorimodalsteka(0)">
+    
+        <p style="font-weight: 700; display:inline; margin-left:7%;">@listaBaglama[baglamaodabrana].naziv</p>
+   
+   <p class="materijalklasa" style="display: inline; margin-left:4%">@listaBaglama[baglamaodabrana].tip</p>
+     
+    <p class="materijalklasa">@listaBaglama[baglamaodabrana].materijal</p>
+    <hr id="hrid">
+    <div class="col" style="display:inline">
+        <br>
+         <img src="@listaBaglama[baglamaodabrana].slika" class="odabranabaglamaslika">
+    </div>
+    
+   </div> 
+        
+}
+
+
+    </div>
+    <div class="col">
+
+  @if(stekaodabrana==404){
+<button @onclick="() => otvorimodalsteka(1)" class="prazanodabir">Šteke <i class="fas fa-plus-circle" style="margin-left: 3%;"></i></button>
+
+}
+@if(stekaodabrana!=404){
+   
+  <div class="odabranabaglama" @onclick="() => otvorimodalsteka(1)">
+    
+        <p style="font-weight: 700; display:inline; margin-left:7%;">@listaSteka[stekaodabrana].naziv</p>
+   
+   <p class="materijalklasa" style="display: inline; margin-left:4%">@listaSteka[stekaodabrana].tip</p>
+     
+    <p class="materijalklasa">@listaSteka[stekaodabrana].materijal</p>
+    <hr id="hrid">
+    <div class="col" style="display:inline">
+        <br>
+         <img src="@listaSteka[stekaodabrana].slikaurl" class="odabranabaglamaslika">
+    </div>
+    
+   </div> 
+        
+}
+
+      
+    </div>
+    <div class="col">
+ @if(bravaodabrana==404){
+<button @onclick="() => otvorimodalsteka(2)" class="prazanodabir">Brave <i class="fas fa-plus-circle" style="margin-left: 3%;"></i></button>
+
+}
+@if(bravaodabrana!=404){
+    
+  <div class="odabranabaglama" @onclick="() => otvorimodalsteka(2)">
+    
+        <p style="font-weight: 700; display:inline; margin-left:7%;">@listaBrava[bravaodabrana].naziv</p>
+   
+   <p class="materijalklasa" style="display: inline; margin-left:4%">@listaBrava[bravaodabrana].tip</p>
+     
+    <p class="materijalklasa">@listaBrava[bravaodabrana].materijal</p>
+    <hr id="hrid">
+    <div class="col" style="display:inline">
+        <br>
+         <img src="@listaBrava[bravaodabrana].slikaurl" class="odabranabaglamaslika">
+    </div>
+    
+   </div> 
+        
+}
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="container" style="margin-top:3%">
+  <div class="row">
+    <div class="col">
+    @if(stokodabran==404){
+<button @onclick="() => otvorimodalsteka(3)" class="prazanodabir">Štokovi <i class="fas fa-plus-circle" style="margin-left: 3%;"></i></button>
+
+}
+@if(stokodabran!=404){
+                               
+  <div class="odabranabaglama" @onclick="() => otvorimodalsteka(3)">
+    
+        <p style="font-weight: 700; display:inline; margin-left:7%;">@listaStokova[stokodabran].naziv</p>
+   
+   <p class="materijalklasa" style="display: inline; margin-left:4%">@listaStokova[stokodabran].tip</p>
+     
+    <p class="materijalklasa">@listaStokova[stokodabran].visina x</p>
+    <p class="materijalklasa">@listaStokova[stokodabran].sirina</p>
+    <hr id="hrid">
+    <div class="col" style="display:inline">
+        <br>
+         <img src="@listaStokova[stokodabran].slikaurl" class="odabranabaglamaslika">
+    </div>
+    
+   </div> 
+        
+}
+
+
+    </div>
+    <div class="col">
+    @if(krilaodabrana==404){
+<button @onclick="() => otvorimodalsteka(4)" class="prazanodabir">Krila <i class="fas fa-plus-circle" style="margin-left: 3%;"></i></button>
+
+}
+@if(krilaodabrana!=404){
+    
+  <div class="odabranabaglama" @onclick="() => otvorimodalsteka(4)">
+    
+        <p style="font-weight: 700; display:inline; margin-left:7%;">@listaKrila[krilaodabrana].naziv</p>
+   
+   <p class="materijalklasa" style="display: inline; margin-left:4%">@listaKrila[krilaodabrana].tip</p>
+     
+    <p class="materijalklasa">@listaKrila[krilaodabrana].visina x</p>
+    <p class="materijalklasa">@listaKrila[krilaodabrana].sirina</p>
+    <hr id="hrid">
+    <div class="col" style="display:inline">
+        <br>
+         <img src="@listaKrila[krilaodabrana].slikaurl" class="odabranabaglamaslika">
+    </div>
+    
+   </div> 
+        
+}
+
+      
+    </div>
+
+
+
+
+    <div class="col">
+<div class="prazanodabir cijena cijenavrijednost" style="text-align: center; vertical-align:middle"><span>Cijena</span>
+<br>
+<span style="font-weight: 800;">@konacnaCijena </span> <span>KM</span>
+  <button class="cijenabutton" @onclick="izracunajCijenu">Izracunaj cijenu</button>
+
+</div>
+
+    </div>
+  </div>
+</div>
+
+	<div id="bg"></div>
+    </div>
+@code {
+    public string tempvar;
+    public bool novimodalstate=true;
+    public int stekaodabrana=404;
+    public int baglamaodabrana=404;
+    public int bravaodabrana=404;
+    public int stokodabran=404;
+    public int krilaodabrana=404;
+
+    public string klasamodala="modal fade show";
+
+private void zatvorinovimodal(){
+    novimodalstate=true;
+}
+
+private void otvorinovimodal(){
+    novimodalstate=false;
+}
+
+private void zatvorimodalsteka(){
+    klasamodala="modal fade hide modalZatvori";
+}
+public int brojModala;
+
+public bool prikaziizbor=false;
+public void prikaziizborfunkcija(){
+    if(prikaziizbor==false){
+        prikaziizbor=true;
+    }
+    else{
+        prikaziizbor=false;
+    }
+}
+private void otvorimodalsteka(int id){
+    klasamodala="modal fade show modalOtvori";
+    brojModala=id;
+}
+    private double konacnaCijena = 0.0;
+    
+    private void izracunajCijenu()
+    { 
+      int provjeraGotova=0;
+      int provjeraID;
+      konacnaCijena=0.0;
+      if (krilaodabrana!=404 && stekaodabrana!=404 && stokodabran!=404 && bravaodabrana!=404 && baglamaodabrana!=404){
+ foreach (var provjera in listaSteka){
+            if (provjera.clicked==1){
+                konacnaCijena+=provjera.cijena;
+            }
+        }
+         foreach (var provjera2 in listaBaglama){
+            if (provjera2.clicked==1){
+                konacnaCijena+=provjera2.cijena;
+            }
+        }
+
+        foreach (var provjera2 in listaBrava){
+            if (provjera2.clicked==1){
+                konacnaCijena+=provjera2.cijena;
+            }
+        }
+        foreach (var provjera2 in listaKrila){
+            if (provjera2.clicked==1){
+                konacnaCijena+=provjera2.cijena;
+            }
+        }
+        foreach (var provjera2 in listaStokova){
+            if (provjera2.clicked==1){
+                konacnaCijena+=provjera2.cijena;
+            }
+        }
+      }
+       
+        
+    }
+
+     private void kliknutaSteka(int id)
+    {
+        foreach (var stekica in listaSteka)
+        {
+            if(stekica.id==id){
+                stekica.clicked=1;
+                stekica.klasa="baglamaClick";
+                stekaodabrana=id;
+            }
+            else{
+                stekica.clicked=0;
+                stekica.klasa="baglame";
+                
+            }
+        }
+        
+    }
+
+    private void kliknutaBaglama(int id)
+    {
+        foreach (var baglamica in listaBaglama)
+        {
+            if(baglamica.id==id){
+                baglamica.clicked=1;
+                baglamica.klasa="baglamaClick";
+                baglamaodabrana=id;
+            }
+            else{
+                baglamica.clicked=0;
+                baglamica.klasa="baglame";
+                
+            }
+        }
+        
+    }
+
+    private void kliknutaBrava(int id)
+    {
+        foreach (var bravica in listaBrava)
+        {
+            if(bravica.id==id){
+                bravica.clicked=1;
+                bravica.klasa="baglamaClick";
+                bravaodabrana=id;
+            }
+            else{
+                bravica.clicked=0;
+                bravica.klasa="baglame";
+                
+            }
+        }
+        
+    }
+
+    private void kliknutStok(int id)
+    {
+        foreach (var stokic in listaStokova)
+        {
+            if(stokic.id==id){
+                stokic.clicked=1;
+                stokic.klasa="baglamaClick";
+                stokodabran=id;
+            }
+            else{
+                stokic.clicked=0;
+                stokic.klasa="baglame";
+                
+            }
+        }
+        
+    }
+
+    private void kliknutaKrila(int id)
+    {
+        foreach (var krilca in listaKrila)
+        {
+            if(krilca.id==id){
+                krilca.clicked=1;
+                krilca.klasa="baglamaClick";
+                krilaodabrana=id;
+            }
+            else{
+                krilca.clicked=0;
+                krilca.klasa="baglame";
+                
+            }
+        }
+        
+    }
+
+   
+
+    List<steke> listaSteka = new List<steke>(){
+        new steke() {naziv="prva", cijena=10, clicked=0,id=0,klasa="baglame",materijal="Željezo",tip="x20", opis="Najsigurnija šteka",slikaurl="https://repo.ottshow.net/coningag/steke/steka01.png"},
+        new steke() {naziv="druga", cijena=12, clicked=0,id=1,klasa="baglame",materijal="Željezo",tip="x30", opis="Najsigurnija šteka",slikaurl="https://repo.ottshow.net/coningag/steke/steka02.png"},
+        new steke() {naziv="treća", cijena=20, clicked=0,id=2,klasa="baglame",materijal="Željezo",tip="x40", opis="Najsigurnija šteka",slikaurl="https://repo.ottshow.net/coningag/steke/steka03.png"}
+        };
+
+
+     List<baglame> listaBaglama = new List<baglame>(){
+        new baglame() {id=0, clicked=0,tip="Tipx20",materijal="celik", cijena=10, opis="Opis baglame, ima najbolju cijenu",slika="https://repo.ottshow.net/coningag/baglame/baglama%20klasicna%20png.png", naziv="Baglama 1",klasa="baglame"},
+        new baglame() {id=1, clicked=0,tip="Tipx10",materijal="zeljezo", cijena=7, opis="Opis baglame, ima jos bolju cijenu",slika="https://repo.ottshow.net/coningag/baglame/baglama%20leptir01%20png.png", naziv="Baglama 2",klasa="baglame"},
+        new baglame() {id=2, clicked=0,tip="Tipx15",materijal="zeljezo", cijena=8, opis="Opis baglame, ima jos bolju cijenu",slika="https://repo.ottshow.net/coningag/baglame/baglama%20skrivena01%20png.png", naziv="Baglama 3x",klasa="baglame"},
+       // new baglame() {id=3, clicked=0,tip="Tipx1x",materijal="celik", cijena=8, opis="Opis baglame, ima jos bolju cijenu",slika="https://repo.ottshow.net/coningag/steke/steka04.png", naziv="Baglama 4x",klasa="baglame"},
+     };
+
+
+        List<krilo> listaKrila = new List<krilo>(){
+        new krilo() {id=0, clicked=0,tip="Tipx20",visina=4.40, sirina=4.30, cijena=10, opis="Opis krila, ima najbolju cijenu",slikaurl="https://repo.ottshow.net/coningag/stok-unutrasnji/stok%20unutarnja%20strana%20primjer.png", naziv="Krilo 1",klasa="baglame"},
+        new krilo() {id=1, clicked=0,tip="Tipx30",visina=4.30, sirina=4.20, cijena=11, opis="Opis krila, ima najbolju cijenu",slikaurl="https://repo.ottshow.net/coningag/stok-unutrasnji/stok%20unutarnja%20strana%20primjer%2002%20png.png", naziv="Krilo 2",klasa="baglame"},
+        new krilo() {id=2, clicked=0,tip="Tipx20",visina=4.20, sirina=4.30, cijena=9,  opis="Opis krila, ima najbolju cijenu",slikaurl="https://repo.ottshow.net/coningag/stok-unutrasnji/stok%20unutarnja%20strana%20primjer%200201%20png.png", naziv="Krilo 3",klasa="baglame"},
+
+       // new baglame() {id=3, clicked=0,tip="Tipx1x",materijal="celik", cijena=8, opis="Opis baglame, ima jos bolju cijenu",slika="https://repo.ottshow.net/coningag/steke/steka04.png", naziv="Baglama 4x",klasa="baglame"},
+     };
+
+
+      List<stok> listaStokova = new List<stok>(){
+        new stok() {id=0, clicked=0,tip="TipS20",visina=2.40, sirina=1.30, cijena=4, opis="Opis štoka, ima najbolju cijenu",slikaurl="https://repo.ottshow.net/coningag/stok/stok01%20png.png", naziv="Štok 1",klasa="baglame"},
+        new stok() {id=1, clicked=0,tip="TipR30",visina=1.30, sirina=4.20, cijena=11, opis="Opis štoka, ima najbolji izgled",slikaurl="https://repo.ottshow.net/coningag/stok/stok02%20png.png", naziv="Štok 2",klasa="baglame"},
+        new stok() {id=2, clicked=0,tip="Tipx20",visina=3.20, sirina=2.30, cijena=9,  opis="Opis štoka, ima najbolju cijenu",slikaurl="https://repo.ottshow.net/coningag/stok/stok03%20png.png", naziv="Štok 3",klasa="baglame"},
+
+       // new baglame() {id=3, clicked=0,tip="Tipx1x",materijal="celik", cijena=8, opis="Opis baglame, ima jos bolju cijenu",slika="https://repo.ottshow.net/coningag/steke/steka04.png", naziv="Baglama 4x",klasa="baglame"},
+     };
+
+
+     List<brava> listaBrava = new List<brava>(){
+        new brava() {id=0, clicked=0,tip="TipS20", cijena=4.40, opis="Opis brave, ima najbolju zaštitu",slikaurl="https://repo.ottshow.net/coningag/brave/brava_klasicna01%20png.png", naziv="Brava 1",klasa="baglame", materijal="zeljezo"},
+        new brava() {id=1, clicked=0,tip="TipR30", cijena=11.20, opis="Opis brave, ima najbolji izgled",slikaurl="https://repo.ottshow.net/coningag/brave/brava_klasicna%20png.png", naziv="Brava 2",klasa="baglame",materijal="zeljezo"},
+        new brava() {id=2, clicked=0,tip="Tipx20", cijena=9.0,  opis="Opis brave, ima najbolji izgled",slikaurl="https://repo.ottshow.net/coningag/brave/brava_magnetna%20png.png", naziv="Brava 3",klasa="baglame",materijal="zeljezo"},
+
+       // new baglame() {id=3, clicked=0,tip="Tipx1x",materijal="celik", cijena=8, opis="Opis baglame, ima jos bolju cijenu",slika="https://repo.ottshow.net/coningag/steke/steka04.png", naziv="Baglama 4x",klasa="baglame"},
+     };
+    
+
+        class steke
+    {
+
+    public int id {get;set;}
+    public string naziv{get;set;}
+    public int cijena {get; set;}
+    public int clicked {get;set;}
+    public string klasa{get;set;}
+    public string tip{get;set;}
+    public string materijal {get;set;}
+    public string opis{get;set;}
+    public string slikaurl{get;set;}
+    }
+
+
+    class baglame
+    {
+    public string klasa {get;set;}
+    public int id {get;set;}
+    public int clicked {get;set;}
+    public string tip {get;set;}
+    public string materijal {get;set;}
+    public int cijena {get;set;}
+    public string opis {get;set;}
+    public string slika {get;set;}
+    public string naziv {get;set;}
+    }
+
+
+    class krilo 
+    {
+        public string klasa {get;set;}
+        public int id {get;set;}
+        public int clicked {get;set;}
+        public string naziv {get;set;}
+        public double visina{get;set;}
+        public double sirina{get;set;}
+        public double cijena {get;set;}
+        public string opis {get;set;}
+        public string slikaurl {get;set;}
+        public string tip {get;set;}
+    
+
+    }
+
+    class stok
+    {
+        public string klasa {get;set;}
+         public int id {get;set;}
+         public int clicked {get;set;}
+        public string naziv{get;set;}
+        public double visina{get;set;}
+        public double sirina{get;set;}
+        public double cijena {get;set;}
+        public string opis {get;set;}
+        public string slikaurl {get;set;}
+        public string tip {get;set;}
+    }
+
+    class brava 
+    {
+        public string klasa {get;set;}
+         public int id {get;set;}
+         public int clicked {get;set;}
+        public string naziv{get; set;}
+       
+       public string materijal {get;set;}
+        public double cijena {get;set;}
+        public string opis {get;set;}
+        public string slikaurl {get;set;}
+        public string tip {get;set;}
+    }
+}
