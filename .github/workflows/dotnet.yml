@@ -11,3 +11,8 @@
     config-file: # optional
     # Whether prerelease versions should be matched with non-exact versions (for example 5.0.0-preview.6 being matched by 5, 5.0, 5.x or 5.0.x). Defaults to false if not provided.
     include-prerelease: # optional
+        # Generate the website
+        - name: Publish
+          run: |
+            cp wwwroot/index.html wwwroot/404.html
+            dotnet publish myapp.csproj --configuration Release
